@@ -14,16 +14,31 @@ body {
 
 /* content */
 
-.container{
+.container {
   max-width: 1200px;
   margin: 0 auto
 }
 
-.carousel-container{
+.carousel-container {
   position: relative;
 }
 
-.carousel-images{
+.active-image-title {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  font-size: 3rem;
+  color: white;
+}
+
+
+.invert-direction-btn {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.carousel-images {
   position: relative;
   height: 50vh;
 }
@@ -38,12 +53,12 @@ body {
   display: none;
 }
 
-.carousel-thumbs{
+.carousel-thumbs {
   display: flex;
   height: 150px;
 }
 
-.carousel-thumbs .carousel-img.active{
+.carousel-thumbs .carousel-img.active {
   border: 3px solid red;
   opacity: 1;
 }
@@ -56,11 +71,11 @@ body {
   opacity: 0.5;
 }
 
-.carousel-img.active{
+.carousel-img.active {
   display: inline-block;
 }
 
-.carousel-navigation{
+.carousel-navigation {
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -69,10 +84,9 @@ body {
   transform: translateY(-50%);
 }
 
-.carousel-navigation button{
+.carousel-navigation button {
   font-size: 2rem;
   border-radius: 50%;
   border: 2px solid black;
-  background-color: yellowgreen;
+  background-color: rgba(255, 255, 255, 0);
 }
-

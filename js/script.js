@@ -1,18 +1,10 @@
 console.log('JS OK!');
 
-
-/*
-creare un carousel di immagini
-le immagini sono in un array (array di stringhe)
-pulsanti avanti indietro
-aggiungere le thumb (la thumb attiva sarà distinguibile dalle altre)
-dopo 5 secondi la slide avanza automaticamente
-*/
-
 // settings
 const NUM_IMAGES = 5;
 const CHANGE_IMAGE_DELAY = 5;
 
+// const images = createImageArray(NUM_IMAGES);
 const images = [
     {
         url: 'http://www.viaggiareonline.it/wp-content/uploads/2014/11/sweden_148857365.jpg',
@@ -42,8 +34,92 @@ const images = [
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
 ];
-
 console.log(images);
+
+// direction: se true muove automaticamente in avanti; altrimenti va indietro
+let direction = true;
+
+let activeIndex = 0;
+buildCarousel(images, activeIndex);
+
+let idInterval = setInterval(automaticImageChange, CHANGE_IMAGE_DELAY * 1000);
+
+const leftArrowButton = document.getElementById('left-arrow');
+const rightArrowButton = document.getElementById('right-arrow');
+const invertDirectionButton = document.querySelector('.invert-direction-btn button');
+
+
+leftArrowButton.addEventListener('click', moveCarouselPrevious);
+
+
+rightArrowButton.addEventListener('click', moveCarouselForward);
+
+
+invertDirectionButton.addEventListener('click', invertDirection);
+
+
+function automaticImageChange() {
+    if (direction) {
+        moveCarouselForward();
+    } else {
+        moveCarouselPrevious();
+    }
+}
+
+function invertDirection() {
+    direction = !direction;
+    manageTimeInterval();
+}
+
+function moveCarouselForward() {
+    // se l'indice si trova in fondo allora lo riposizione all'inizio dell'array
+    activeIndex = activeIndex < images.length - 1 ? activeIndex + 1 : 0;
+    buildCarousel(images, activeIndex);
+    manageTimeInterval()
+}
+
+function moveCarouselPrevious() {
+
+    // se l'indice è in prima posizione si valorizza all'ultima posizione dell'array
+    activeIndex = activeIndex > 0 ? activeIndex - 1 : images.length - 1;
+    buildCarousel(images, activeIndex);
+    manageTimeInterval()
+}
+
+function manageTimeInterval() {
+    clearInterval(idInterval);
+    idInterval = setInterval(automaticImageChange, CHANGE_IMAGE_DELAY * 1000);
+}
+
+
+
+function buildCarousel(places, activeIndex) {
+    const carouselImages = document.querySelector('.carousel-images');
+    const carouselThumbs = document.querySelector('.carousel-thumbs');
+    const activeImageTitleElement = document.querySelector('.active-image-title');
+
+    let content = '';
+    let activeTitle = '';
+
+    places.forEach((place, i) => {
+        let imageClass = 'carousel-img'
+        if (i === activeIndex) {
+            activeTitle = place.title;
+            imageClass += ' active';
+        }
+
+        content += `<img class="${imageClass}" src="${place.url}" alt="${place.description}" />`;
+    });
+
+
+    // console.log({content});
+
+    console.log({ activeTitle });
+    activeImageTitleElement.innerHTML = activeTitle
+    carouselImages.innerHTML = content;
+    carouselThumbs.innerHTML = content;
+}
+
 
 function createImageArray(numImages) {
     const images = [];
@@ -55,53 +131,3 @@ function createImageArray(numImages) {
 
     return images;
 }
-
-let activeIndex = 0;
-buildCarousel(images, activeIndex);
-
-
-function buildCarousel(urls, activeIndex) {
-    const carouselImages = document.querySelector('.carousel-images');
-    const carouselThumbs = document.querySelector('.carousel-thumbs');
-    let content = '';
-    for (let i = 0; i < urls.length; i++) {
-        const url = urls[i];
-        const imageClass = i === activeIndex ? 'carousel-img active' : 'carousel-img'
-        content += `<img class="${imageClass}" src="${url}" alt="${url}" />`;
-    }
-    // console.log({content});
-    carouselImages.innerHTML = content;
-    carouselThumbs.innerHTML = content;
-}
-
-
-// cambio img ogni 5sec
-
-let idInterval = setInterval(moveCarouselForward, CHANGE_IMAGE_DELAY * 1000);
-
-// ciclo di visualizzazione img
-
-const leftArrowButton = document.getElementById('left-arrow');
-const rightArrowButton = document.getElementById('right-arrow');
-
-leftArrowButton.addEventListener('click', moveCarouselPrevious);
-rightArrowButton.addEventListener('click', moveCarouselForward);
-
-
-function moveCarouselForward() {
-    clearInterval(idInterval)
-    // se l'indice si trova in fondo allora lo riposizione all'inizio dell'array
-    activeIndex = activeIndex < images.length - 1 ? activeIndex + 1 : 0;
-    buildCarousel(images, activeIndex);
-    idInterval = setInterval(moveCarouselForward, CHANGE_IMAGE_DELAY * 1000);
-}
-
-function moveCarouselPrevious() {
-    clearInterval(idInterval)
-    // se l'indice è in prima posizione si valorizza all'ultima posizione dell'array
-    activeIndex = activeIndex > 0 ? activeIndex - 1 : images.length - 1;
-    buildCarousel(images, activeIndex);
-    idInterval = setInterval(moveCarouselForward, CHANGE_IMAGE_DELAY * 1000);
-}
-
-
