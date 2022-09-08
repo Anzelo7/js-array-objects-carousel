@@ -41,14 +41,8 @@ const images = [
         title: 'Colombia',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
-    pushURL, function () {
-        pushURL = images.url
-        document.querySelector(carouselImages).push(url)
-    }
 ];
 
-/*
-const images = createImageArray(NUM_IMAGES);
 console.log(images);
 
 function createImageArray(numImages) {
@@ -60,7 +54,7 @@ function createImageArray(numImages) {
     }
 
     return images;
-}*/
+}
 
 let activeIndex = 0;
 buildCarousel(images, activeIndex);
